@@ -1447,8 +1447,14 @@ require('lazy').setup({
     main = vim.fn.has('win32') == 0 and 'nvim-treesitter.configs' or nil,
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = vim.fn.has('win32') == 1 and function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      -- Safely require treesitter configs, skip if not available
+      local status_ok, treesitter_configs = pcall(require, 'nvim-treesitter.configs')
+      if not status_ok then
+        vim.notify('nvim-treesitter not installed yet. Run :Lazy sync', vim.log.levels.WARN)
+        return
+      end
+      treesitter_configs.setup {
+        ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = {
@@ -1462,7 +1468,7 @@ require('lazy').setup({
       }
     end or nil,
     opts = vim.fn.has('win32') == 0 and {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
