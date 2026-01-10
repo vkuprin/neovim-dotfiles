@@ -552,6 +552,57 @@ require('lazy').setup({
     end,
   },
 
+  { -- Flash.nvim - jump to any visible text quickly
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {
+      -- Show labels for all matches
+      labels = 'asdfghjklqwertyuiopzxcvbnm',
+      search = {
+        -- Search mode: "exact", "search", or "fuzzy"
+        mode = 'fuzzy',
+        -- Incremental search
+        incremental = true,
+      },
+      jump = {
+        -- Jump on first match if only one
+        autojump = false,
+      },
+      label = {
+        -- Show labels after the match
+        after = true,
+        before = false,
+        -- Highlight matches
+        uppercase = false,
+      },
+      modes = {
+        -- Enable flash in neo-tree and other special buffers
+        char = {
+          enabled = true,
+          jump_labels = true,
+        },
+      },
+    },
+    keys = {
+      {
+        '<leader>j',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = '[J]ump with Flash',
+      },
+      {
+        '<leader>J',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = '[J]ump with Flash Treesitter',
+      },
+    },
+  },
+
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -1318,8 +1369,6 @@ require('lazy').setup({
           ['<'] = 'prev_source',
           ['>'] = 'next_source',
           ['i'] = 'show_file_details',
-          ['/'] = 'fuzzy_finder',              -- Filter visible items in neo-tree
-          ['f'] = 'filter_on_submit',          -- Filter after pressing enter
         }
       },
       nesting_rules = {},
