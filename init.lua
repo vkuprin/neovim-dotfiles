@@ -113,7 +113,7 @@ vim.o.number = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 -- Set mouse scrolling to 1 line per tick (default is 3) for slower, smoother scrolling
-vim.o.mousescroll = 'ver:1,hor:1'
+vim.o.mousescroll = 'ver:2,hor:2'
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
@@ -346,7 +346,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -414,8 +414,8 @@ require('lazy').setup({
       vim.cmd.colorscheme 'gruber-darker'
 
       -- Override yellow colors (customize hex values as desired)
-      vim.api.nvim_set_hl(0, 'String', { fg = '#d4d4d4' }) -- Change yellow strings to light gray
-      vim.api.nvim_set_hl(0, 'Number', { fg = '#d4d4d4' }) -- Change yellow numbers
+      vim.api.nvim_set_hl(0, 'String', { fg = '#d4d4d4' })   -- Change yellow strings to light gray
+      vim.api.nvim_set_hl(0, 'Number', { fg = '#d4d4d4' })   -- Change yellow numbers
       vim.api.nvim_set_hl(0, 'Constant', { fg = '#d4d4d4' }) -- Change constants
 
       -- Fix statusline mode indicator (N/I/V) contrast
@@ -461,7 +461,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -577,7 +577,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',    opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -786,7 +786,7 @@ require('lazy').setup({
 
         -- Systems programming
         clangd = {}, -- C/C++
-        jdtls = {}, -- Java
+        jdtls = {},  -- Java
 
         -- Shell scripting
         bashls = {}, -- Bash/Shell
@@ -1066,14 +1066,14 @@ require('lazy').setup({
     opts = {},
   },
 
-  { -- Automatic session management
+  {                       -- Automatic session management
     'folke/persistence.nvim',
     event = 'BufReadPre', -- Only start saving when you open a file
     opts = {},
     keys = {
-      { '<leader>qs', function() require('persistence').load() end, desc = 'Restore Session' },
+      { '<leader>qs', function() require('persistence').load() end,                desc = 'Restore Session' },
       { '<leader>ql', function() require('persistence').load({ last = true }) end, desc = 'Restore Last Session' },
-      { '<leader>qd', function() require('persistence').stop() end, desc = "Don't Save Current Session" },
+      { '<leader>qd', function() require('persistence').stop() end,                desc = "Don't Save Current Session" },
     },
     config = function(_, opts)
       require('persistence').setup(opts)
@@ -1249,8 +1249,8 @@ require('lazy').setup({
             -- Change type
             added = '', -- or "✚", but this is redundant info if you use git_status_colors on the name
             modified = '', -- or "", but this is redundant info if you use git_status_colors on the name
-            deleted = '✖',-- this can only be used in the git_status source
-            renamed = '󰁕',-- this can only be used in the git_status source
+            deleted = '✖', -- this can only be used in the git_status source
+            renamed = '󰁕', -- this can only be used in the git_status source
             -- Status type
             untracked = '',
             ignored = '',
@@ -1269,8 +1269,8 @@ require('lazy').setup({
         },
         mappings = {
           ['<space>'] = {
-              'toggle_node',
-              nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
+            'toggle_node',
+            nowait = false,   -- disable `nowait` if you have existing combos starting with this char that you want to use
           },
           ['<2-LeftMouse>'] = 'open',
           ['<cr>'] = 'open',
@@ -1354,11 +1354,11 @@ require('lazy').setup({
     event = 'InsertEnter',
     config = function()
       require('nvim-autopairs').setup {
-        check_ts = true, -- Enable treesitter integration
+        check_ts = true,      -- Enable treesitter integration
         ts_config = {
           lua = { 'string' }, -- Don't add pairs in lua string treesitter nodes
           javascript = { 'template_string' },
-          java = false, -- Don't check treesitter on java
+          java = false,       -- Don't check treesitter on java
         },
       }
     end,
@@ -1383,18 +1383,18 @@ require('lazy').setup({
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require('colorizer').setup {
-        filetypes = { '*' }, -- Enable for all filetypes
+        filetypes = { '*' },                             -- Enable for all filetypes
         user_default_options = {
-          RGB = true, -- #RGB hex codes
-          RRGGBB = true, -- #RRGGBB hex codes
-          names = true, -- "Name" codes like Blue, red
-          RRGGBBAA = true, -- #RRGGBBAA hex codes
-          rgb_fn = true, -- CSS rgb() and rgba() functions
-          hsl_fn = true, -- CSS hsl() and hsla() functions
-          css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-          css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-          mode = 'background', -- Set the display mode: 'foreground', 'background', 'virtualtext'
-          tailwind = true, -- Enable tailwind colors
+          RGB = true,                                    -- #RGB hex codes
+          RRGGBB = true,                                 -- #RRGGBB hex codes
+          names = true,                                  -- "Name" codes like Blue, red
+          RRGGBBAA = true,                               -- #RRGGBBAA hex codes
+          rgb_fn = true,                                 -- CSS rgb() and rgba() functions
+          hsl_fn = true,                                 -- CSS hsl() and hsla() functions
+          css = true,                                    -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+          css_fn = true,                                 -- Enable all CSS *functions*: rgb_fn, hsl_fn
+          mode = 'background',                           -- Set the display mode: 'foreground', 'background', 'virtualtext'
+          tailwind = true,                               -- Enable tailwind colors
           sass = { enable = true, parsers = { 'css' } }, -- Enable sass colors
           virtualtext = '■',
         },
@@ -1442,18 +1442,10 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    -- NOTE: Windows requires explicit config function due to module loading issues
-    -- Other platforms can use the simpler main + opts pattern
-    main = vim.fn.has('win32') == 0 and 'nvim-treesitter.configs' or nil,
+    event = { 'BufReadPost', 'BufNewFile' },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    config = vim.fn.has('win32') == 1 and function()
-      -- Safely require treesitter configs, skip if not available
-      local status_ok, treesitter_configs = pcall(require, 'nvim-treesitter.configs')
-      if not status_ok then
-        vim.notify('nvim-treesitter not installed yet. Run :Lazy sync', vim.log.levels.WARN)
-        return
-      end
-      treesitter_configs.setup {
+    config = function()
+      require('nvim-treesitter.configs').setup {
         ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
         -- Autoinstall languages that are not installed
         auto_install = true,
@@ -1466,20 +1458,7 @@ require('lazy').setup({
         },
         indent = { enable = true, disable = { 'ruby' } },
       }
-    end or nil,
-    opts = vim.fn.has('win32') == 0 and {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    } or nil,
+    end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
