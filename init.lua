@@ -1445,7 +1445,7 @@ require('lazy').setup({
     event = { 'BufReadPost', 'BufNewFile' },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = function()
-      require('nvim-treesitter.configs').setup {
+      require('nvim-treesitter').setup {
         ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
         -- Autoinstall languages that are not installed
         auto_install = true,
