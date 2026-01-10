@@ -1318,6 +1318,8 @@ require('lazy').setup({
           ['<'] = 'prev_source',
           ['>'] = 'next_source',
           ['i'] = 'show_file_details',
+          ['/'] = 'fuzzy_finder',              -- Filter visible items in neo-tree
+          ['f'] = 'filter_on_submit',          -- Filter after pressing enter
         }
       },
       nesting_rules = {},
