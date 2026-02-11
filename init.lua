@@ -130,10 +130,10 @@ end)
 vim.o.breakindent = true
 
 -- Indentation settings
-vim.o.tabstop = 2        -- Number of spaces that a <Tab> in the file counts for
-vim.o.shiftwidth = 2     -- Number of spaces to use for each step of (auto)indent
-vim.o.softtabstop = 2    -- Number of spaces that a <Tab> counts for while editing
-vim.o.expandtab = true   -- Use spaces instead of tabs
+vim.o.tabstop = 2 -- Number of spaces that a <Tab> in the file counts for
+vim.o.shiftwidth = 2 -- Number of spaces to use for each step of (auto)indent
+vim.o.softtabstop = 2 -- Number of spaces that a <Tab> counts for while editing
+vim.o.expandtab = true -- Use spaces instead of tabs
 vim.o.smartindent = true -- Smart autoindenting when starting a new line
 
 -- Disable line wrapping
@@ -1220,7 +1220,7 @@ require('lazy').setup({
           right_trunc_marker = '',
           diagnostics = 'nvim_lsp',
           diagnostics_indicator = function(count, level)
-            local icon = level:match('error') and ' ' or ' '
+            local icon = level:match 'error' and ' ' or ' '
             return ' ' .. icon .. count
           end,
           offsets = {
@@ -1347,7 +1347,7 @@ require('lazy').setup({
             -- some commands may take optional config options, see `:h neo-tree-mappings` for details
             config = {
               show_path = 'none', -- 'none', 'relative', 'absolute'
-            }
+            },
           },
           ['A'] = 'add_directory', -- also accepts the optional config.show_path option like 'add'. this also supports BASH style brace expansion.
           ['d'] = 'delete',
@@ -1371,7 +1371,7 @@ require('lazy').setup({
           ['i'] = 'show_file_details',
           ['/'] = 'fuzzy_finder',              -- Search through all files
           ['f'] = 'filter_on_submit',          -- Filter after pressing enter
-        }
+        },
       },
       nesting_rules = {},
       filesystem = {
