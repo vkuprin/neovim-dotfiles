@@ -96,8 +96,11 @@ vim.g.augment_workspace_folders = { vim.fn.getcwd() }
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- Silence nvim-ts-context-commentstring's deprecated-module warning at startup
+vim.g.skip_ts_context_commentstring_module = true
+
 -- Set font (for GUI versions of Neovim like Neovide or VimR)
-vim.opt.guifont = 'Menlo:h12'
+vim.opt.guifont = 'Hack Nerd Font Mono:h12'
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -888,19 +891,17 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      -- mason-lspconfig v2 removed `handlers`/`automatic_installation`; per-server
+      -- config now goes through the native vim.lsp.config API (nvim 0.11+), and
+      -- mason-lspconfig just auto-enables installed servers via vim.lsp.enable.
+      for server_name, server in pairs(servers) do
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        vim.lsp.config(server_name, server)
+      end
+
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
+        automatic_enable = true,
       }
     end,
   },
@@ -1175,16 +1176,20 @@ require('lazy').setup({
     },
     config = function()
       require('codecompanion').setup {
+        -- New config schema: adapters live under `adapters.http`,
+        -- `strategies` was renamed to `interactions` (old name removed in v19)
         adapters = {
-          anthropic = function()
-            return require('codecompanion.adapters').extend('anthropic', {
-              env = {
-                api_key = 'ANTHROPIC_API_KEY',
-              },
-            })
-          end,
+          http = {
+            anthropic = function()
+              return require('codecompanion.adapters').extend('anthropic', {
+                env = {
+                  api_key = 'ANTHROPIC_API_KEY',
+                },
+              })
+            end,
+          },
         },
-        strategies = {
+        interactions = {
           chat = {
             adapter = 'anthropic',
           },
@@ -1421,6 +1426,12 @@ require('lazy').setup({
     'numToStr/Comment.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
+      -- Disable the CursorHold autocmd: Comment.nvim's pre_hook computes the
+      -- commentstring on demand, and the autocmd crashes on buffers without a
+      -- treesitter parser (get_parser() returns nil on nvim 0.11+).
+      require('ts_context_commentstring').setup {
+        enable_autocmd = false,
+      }
       require('Comment').setup {
         -- Use treesitter to automatically calculate commentstring
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
@@ -1498,7 +1509,9 @@ require('lazy').setup({
     event = { 'BufReadPost', 'BufNewFile' },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = function()
-      require('nvim-treesitter').setup {
+      -- NOTE: on the `master` branch the entry point is `nvim-treesitter.configs`;
+      -- `require('nvim-treesitter').setup()` silently ignores these options.
+      require('nvim-treesitter.configs').setup {
         ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
         -- Autoinstall languages that are not installed
         auto_install = true,
@@ -1547,6 +1560,8 @@ require('lazy').setup({
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
+  -- No plugins here use luarocks; disabling stops :checkhealth complaining about it
+  rocks = { enabled = false },
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
