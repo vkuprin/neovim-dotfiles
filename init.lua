@@ -100,7 +100,7 @@ vim.g.have_nerd_font = true
 vim.g.skip_ts_context_commentstring_module = true
 
 -- Set font (for GUI versions of Neovim like Neovide or VimR)
-vim.opt.guifont = 'Hack Nerd Font Mono:h12'
+vim.opt.guifont = 'MesloLGM Nerd Font Mono:h12'
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
